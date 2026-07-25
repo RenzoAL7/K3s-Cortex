@@ -5,6 +5,10 @@ metadata:
   labels:
     app.kubernetes.io/name: gitpath
     app.kubernetes.io/component: web
+  annotations:
+    # Route through the Kubernetes ClusterIP instead of connecting directly
+    # to individual Pod IPs. This avoids the current Traefik-to-Pod 502 path.
+    traefik.ingress.kubernetes.io/service.nativelb: "true"
 spec:
   type: ClusterIP
   selector:
