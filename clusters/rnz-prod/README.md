@@ -2,6 +2,7 @@
 
 Raíz declarativa del clúster K3s en OCI.
 
-Esta primera versión no administra recursos todavía. En cambios posteriores
-incorporará componentes de `platform/` y aplicaciones de `apps/` mediante
-Kustomize.
+Argo CD administra las aplicaciones declaradas en esta carpeta mediante el
+patrón app-of-apps. GitPath sirve la experiencia de aprendizaje principal y
+Cluster Signal observa el estado del clúster con permisos estrictamente de
+lectura.

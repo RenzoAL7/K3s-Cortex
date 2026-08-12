@@ -11,16 +11,16 @@ despliegues futuros de forma declarativa, versionada y auditable.
 
 ---
 
-## Alcance inicial
+## Alcance
 
 - Bootstrap de Argo CD.
-- Configuración base de namespaces e ingreso de tráfico.
-- Despliegues gestionados desde Git.
+- Configuración de namespaces, RBAC e ingreso de tráfico con Traefik.
+- Despliegues de GitPath y Cluster Signal gestionados por Argo CD.
 - Convenciones para cambios mediante Pull Requests.
 
 ---
 
-## Flujo GitOps previsto
+## Flujo GitOps
 
 ```text
 Cambio en infraestructura
@@ -34,7 +34,7 @@ Argo CD sincroniza el clúster K3s
 
 ---
 
-## Estructura prevista
+## Estructura
 
 ```text
 .
@@ -46,8 +46,8 @@ Argo CD sincroniza el clúster K3s
 └── README.md
 ```
 
-Los directorios se incorporarán progresivamente cuando tengan manifiestos
-reales que versionar.
+Cada aplicación mantiene una base reutilizable y un overlay de producción con
+imágenes fijadas a commits inmutables.
 
 ---
 
@@ -60,7 +60,8 @@ reales que versionar.
 
 ---
 
-## Estado
+## Aplicaciones
 
-Repositorio inicializado. El siguiente paso será incorporar el bootstrap limpio
-de Argo CD.
+- `apps/gitpath`: experiencia web para aprender Git.
+- `apps/cluster-signal`: dashboard AIOps con observación Kubernetes de solo
+  lectura y detección local de anomalías.

@@ -1,0 +1,12 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: cluster-signal
+resources:
+  - ../../base
+images:
+  - name: ghcr.io/renzoal7/cluster-signal-api
+    newName: ghcr.io/renzoal7/cluster-signal-api
+    newTag: sha-placeholder
+  - name: ghcr.io/renzoal7/cluster-signal-web
+    newName: ghcr.io/renzoal7/cluster-signal-web
+    newTag: sha-placeholder
