@@ -6,4 +6,4 @@ resources:
 images:
   - name: ghcr.io/renzoal7/gitpath
     newName: ghcr.io/renzoal7/gitpath
-    newTag: sha-6702f5177ea9960605b33a43d9fc811b3a09305e
+    newTag: sha-147b15b2a7a9e8d8485a62e08820acff04cf5afb
