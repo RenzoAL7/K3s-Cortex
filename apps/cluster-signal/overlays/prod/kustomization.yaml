@@ -6,7 +6,7 @@ resources:
 images:
   - name: ghcr.io/renzoal7/cluster-signal-api
     newName: ghcr.io/renzoal7/cluster-signal-api
-    newTag: sha-placeholder
+    newTag: sha-dfe414a36c9f7b6260916839d8c8a620862bf68b
   - name: ghcr.io/renzoal7/cluster-signal-web
     newName: ghcr.io/renzoal7/cluster-signal-web
-    newTag: sha-placeholder
+    newTag: sha-dfe414a36c9f7b6260916839d8c8a620862bf68b
