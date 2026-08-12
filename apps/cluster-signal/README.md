@@ -12,3 +12,9 @@ no mutation verbs and no access to Secrets.
 The OCI model bucket remains private. Production therefore starts with the
 deterministic hashing backend until a scoped authenticated download mechanism
 is configured. This state is visible at `/cluster-signal/ready`.
+
+The initial platform pull request intentionally leaves
+`cluster-signal-application.yaml` out of the cluster root Kustomization. The
+first successful image promotion pins real image tags and adds that Application
+to the root in the same GitOps pull request, avoiding a rollout of placeholder
+images.
