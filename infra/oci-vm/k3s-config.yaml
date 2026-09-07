@@ -1,0 +1,12 @@
+# Un servidor: control-plane y aplicaciones en la misma VM.
+# No es alta disponibilidad. El API queda protegido por el firewall de la VM/OCI.
+write-kubeconfig-mode: "0600"
+secrets-encryption: true
+selinux: true
+disable:
+  - servicelb
+kubelet-arg:
+  # Oracle Linux trae swap; el kubelet no asigna swap a los pods por defecto.
+  - "fail-swap-on=false"
+  - "container-log-max-size=10Mi"
+  - "container-log-max-files=3"

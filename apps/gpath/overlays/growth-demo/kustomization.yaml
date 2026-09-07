@@ -1,0 +1,32 @@
+# Solo para la primera demo en la VM, tras importar estas dos imágenes.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../growth
+images:
+  - name: ghcr.io/renzoal7/gitpath
+    newName: gpath-web
+    newTag: demo-v1
+  - name: ghcr.io/renzoal7/gitpath-api
+    newName: gpath-api
+    newTag: demo-v1
+replicas:
+  - name: gpath
+    count: 1
+  - name: gpath-api
+    count: 1
+patches:
+  - target:
+      kind: Ingress
+      name: gpath
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: localhost
+  - target:
+      kind: PodDisruptionBudget
+      name: gpath
+    patch: |-
+      - op: replace
+        path: /spec/minAvailable
+        value: 0

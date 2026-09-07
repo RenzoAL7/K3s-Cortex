@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: gitpath
+  name: gpath
   labels:
-    app.kubernetes.io/part-of: gitpath
+    app.kubernetes.io/part-of: gpath
     pod-security.kubernetes.io/audit: restricted
     pod-security.kubernetes.io/enforce: restricted
     pod-security.kubernetes.io/warn: restricted

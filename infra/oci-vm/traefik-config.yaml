@@ -1,0 +1,19 @@
+# Entrada del LB OCI hacia la VM privada: TCP/80. Chart Traefik 40.x.
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    service:
+      spec:
+        type: ClusterIP
+    ports:
+      web:
+        hostPort: 80
+        forwardedHeaders:
+          trustedIPs:
+            - 10.0.0.0/24
+    updateStrategy:
+      type: Recreate
