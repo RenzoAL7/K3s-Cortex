@@ -1,0 +1,31 @@
+# Runtime de la web de Growth Path; nginx escribe solo en /tmp.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gpath
+spec:
+  template:
+    spec:
+      securityContext:
+        fsGroup: 101
+        fsGroupChangePolicy: OnRootMismatch
+      volumes:
+        - name: nginx-tmp
+          emptyDir:
+            sizeLimit: 32Mi
+      containers:
+        - name: web
+          securityContext:
+            readOnlyRootFilesystem: true
+          volumeMounts:
+            - name: nginx-tmp
+              mountPath: /tmp
+          startupProbe:
+            httpGet:
+              path: /healthz
+          readinessProbe:
+            httpGet:
+              path: /healthz
+          livenessProbe:
+            httpGet:
+              path: /healthz

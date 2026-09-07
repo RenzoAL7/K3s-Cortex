@@ -15,7 +15,7 @@ despliegues futuros de forma declarativa, versionada y auditable.
 
 - Bootstrap de Argo CD.
 - Configuración de namespaces, RBAC e ingreso de tráfico con Traefik.
-- Despliegues de GitPath y Cluster Signal gestionados por Argo CD.
+- Despliegues de GPath y Cluster Signal gestionados por Argo CD.
 - Convenciones para cambios mediante Pull Requests.
 
 ---
@@ -62,6 +62,6 @@ imágenes fijadas a commits inmutables.
 
 ## Aplicaciones
 
-- `apps/gitpath`: experiencia web para aprender Git.
+- `apps/gpath`: Growth Path, exploración de tecnologías presentes en vacantes.
 - `apps/cluster-signal`: dashboard AIOps con observación Kubernetes de solo
   lectura y detección local de anomalías.

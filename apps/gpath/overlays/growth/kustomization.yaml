@@ -1,0 +1,34 @@
+# Growth Path: inactive until the promotion PR pins both real digests AND changes
+# clusters/rnz-prod/gpath-application.yaml to this path. Do not apply as-is.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: gpath
+resources:
+  - ../../base
+  - ../../api
+images:
+  - name: ghcr.io/renzoal7/gitpath
+    newName: ghcr.io/renzoal7/gitpath
+    newTag: release-not-published
+  - name: ghcr.io/renzoal7/gitpath-api
+    newName: ghcr.io/renzoal7/gitpath-api
+    newTag: release-not-published
+patches:
+  - path: web-runtime.yaml
+  - target:
+      kind: Ingress
+      name: gpath
+    patch: |-
+      - op: add
+        path: /spec/rules/0/host
+        value: gpath.tech
+      - op: add
+        path: /spec/rules/0/http/paths/0
+        value:
+          path: /api
+          pathType: Prefix
+          backend:
+            service:
+              name: gpath-api
+              port:
+                name: http
