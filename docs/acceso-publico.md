@@ -1,5 +1,10 @@
 # Demo pública: OCI Load Balancer → Traefik
 
+Este documento registra la exposición inicial. Desde el 7 de septiembre de 2026,
+GPath usa Argo CD y el overlay `growth` con imágenes por digest. Consulta
+[GitOps activo](gitops-activo.md); no reapliques `public-demo` sobre la aplicación
+gestionada por Argo CD, porque volvería a las imágenes locales antiguas.
+
 ## Configuración
 
 El balanceador existente `lb-rnz-prod-edge` conserva sus listeners 80/443 y su
@@ -62,5 +67,5 @@ El respaldo previo de Traefik está en la VM en
 `/home/opc/cortex-setup/traefik-config-before-public.yaml`; tenía el campo antiguo
 `service.type`, por lo que debe corregirse a `service.spec.type` al reutilizarlo.
 
-Esta exposición no activa GitOps: Argo CD sigue pendiente de registrar la aplicación
-tras publicar y revisar las PRs y los digests reales de las imágenes.
+La exposición inicial no activaba GitOps. Ese paso se completó después de revisar
+las PRs y publicar los digests reales; el registro actual está en `gitops-activo.md`.

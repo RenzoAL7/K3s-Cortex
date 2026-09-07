@@ -1,5 +1,11 @@
 # Bootstrap de Argo CD
 
+**VM actual:** Argo CD v3.5.2 ya está instalado y `gpath-prod` está registrado
+individualmente. No reinstalar ni aplicar la raíz para continuar con GPath:
+la raíz incluye también Cluster Signal. Ver [estado actual](../docs/gitops-activo.md).
+Las instrucciones siguientes describen el bootstrap original, no una actualización
+de la instalación en uso.
+
 Este directorio contiene el punto de arranque manual de GitOps. La instalación
 de Argo CD se aplica una sola vez; después, `root-application.yaml` hace que
 Argo CD sincronice el estado deseado desde este repositorio.

@@ -9,6 +9,12 @@ spec:
     service:
       spec:
         type: ClusterIP
+    providers:
+      kubernetesIngress:
+        publishedService:
+          enabled: false
+        ingressEndpoint:
+          ip: 193.122.221.201
     ports:
       web:
         hostPort: 80

@@ -2,6 +2,11 @@
 
 Infraestructura como código para administrar un clúster K3s mediante GitOps.
 
+Estado verificado el 7 de septiembre de 2026: `gpath-prod` está `Synced` y
+`Healthy`. Solo GPath está registrado en Argo CD en la VM actual; Cluster Signal
+y la Application raíz no se activaron. Ver [GitOps activo](docs/gitops-activo.md)
+para el alcance, las comprobaciones y el recorrido de publicación.
+
 ---
 
 ## Objetivo
