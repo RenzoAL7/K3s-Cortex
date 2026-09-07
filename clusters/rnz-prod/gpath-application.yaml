@@ -13,7 +13,7 @@ spec:
   source:
     repoURL: https://github.com/RenzoAL7/K3s-Cortex.git
     targetRevision: main
-    path: apps/gpath/overlays/prod
+    path: apps/gpath/overlays/growth
   destination:
     server: https://kubernetes.default.svc
     namespace: gpath
