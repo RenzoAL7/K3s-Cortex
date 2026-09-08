@@ -99,8 +99,7 @@ o el chat. La sesión Bastion expira; si el túnel no conecta, ejecuta `bastion-
 3. Fusionar GPath: CI construye web y API para ARM64 y abre un PR en Cortex con digests.
 4. Revisar y fusionar esa promoción. No hay merge automático de producción.
 5. Revisar las aplicaciones incluidas en `bootstrap/root-application.yaml` antes de
-   aplicarlo: el root actual también activa `cluster-signal`, que no forma parte de
-   esta primera instalación. Alternativa: registrar únicamente la aplicación GPath.
+   aplicarlo: el root actual registra únicamente la aplicación GPath.
 6. Argo CD debe indicar `Synced` y `Healthy`; luego probar `/api/jobs` por el Ingress.
 7. Revertir una promoción y comprobar la recuperación con el digest anterior.
 

@@ -40,7 +40,7 @@ cambios sin commit; el identificador de revisión incluido no representa por sí
 todo el contenido de estas imágenes.
 
 No se han publicado commits, PRs ni imágenes en el registro. Argo CD todavía no
-reconcilia GPath desde Cortex. No se aplicó el root que también incluye cluster-signal.
+reconcilia GPath desde Cortex. No se aplicó la Application raíz.
 
 Los datos son doce ofertas ficticias, claramente identificadas en la página. La
 recolección de ofertas reales, el bucket, el Load Balancer, TLS público y los backups

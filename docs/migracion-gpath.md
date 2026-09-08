@@ -25,7 +25,7 @@ son nombres de imágenes, no nombres de recursos Kubernetes.
 4. Se retiró el Ingress anterior y se cambió el nuevo al host `localhost`.
 5. Pasó la comprobación HTTP de web y API. Se eliminó el namespace antiguo `gitpath`.
 6. Estado final: dos pods `Running`, ambos `1/1`, sin reinicios; 19 pruebas locales y
-   8 de navegador aprobadas. No se modificaron Argo CD, cluster-signal ni el LB público.
+   8 de navegador aprobadas. No se modificaron Argo CD ni el LB público.
 
 Respaldo local temporal de los recursos anteriores, sin valores de secretos:
 `/private/tmp/gpath-rename.PTl2gA/old-gitpath-inventory.txt`.

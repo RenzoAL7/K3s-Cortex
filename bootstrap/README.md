@@ -2,7 +2,7 @@
 
 **VM actual:** Argo CD v3.5.2 ya está instalado y `gpath-prod` está registrado
 individualmente. No reinstalar ni aplicar la raíz para continuar con GPath:
-la raíz incluye también Cluster Signal. Ver [estado actual](../docs/gitops-activo.md).
+la raíz incluye la Application de GPath. Ver [estado actual](../docs/gitops-activo.md).
 Las instrucciones siguientes describen el bootstrap original, no una actualización
 de la instalación en uso.
 

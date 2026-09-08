@@ -3,9 +3,9 @@
 Infraestructura como código para administrar un clúster K3s mediante GitOps.
 
 Estado verificado el 7 de septiembre de 2026: `gpath-prod` está `Synced` y
-`Healthy`. Solo GPath está registrado en Argo CD en la VM actual; Cluster Signal
-y la Application raíz no se activaron. Ver [GitOps activo](docs/gitops-activo.md)
-para el alcance, las comprobaciones y el recorrido de publicación.
+`Healthy`. Solo GPath está registrado en Argo CD en la VM actual y la Application
+raíz no se activó. Ver [GitOps activo](docs/gitops-activo.md) para el alcance, las
+comprobaciones y el recorrido de publicación.
 
 ---
 
@@ -20,7 +20,7 @@ despliegues futuros de forma declarativa, versionada y auditable.
 
 - Bootstrap de Argo CD.
 - Configuración de namespaces, RBAC e ingreso de tráfico con Traefik.
-- Despliegues de GPath y Cluster Signal gestionados por Argo CD.
+- Despliegues de GPath gestionados por Argo CD.
 - Convenciones para cambios mediante Pull Requests.
 
 ---
@@ -68,5 +68,3 @@ imágenes fijadas a commits inmutables.
 ## Aplicaciones
 
 - `apps/gpath`: Growth Path, exploración de tecnologías presentes en vacantes.
-- `apps/cluster-signal`: dashboard AIOps con observación Kubernetes de solo
-  lectura y detección local de anomalías.

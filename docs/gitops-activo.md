@@ -16,7 +16,7 @@ Verificado el 7 de septiembre de 2026 a las 16:24 UTC en `OCI_VM`:
 - Ingress `gpath` y `gpath-lb-health`: dirección publicada `193.122.221.201`.
 
 Son observaciones puntuales, no una garantía de disponibilidad. Los datos siguen
-siendo doce ofertas ficticias. No se activaron la Application raíz ni Cluster Signal.
+siendo doce ofertas ficticias. No se activó la Application raíz.
 
 ## Publicar un cambio
 
