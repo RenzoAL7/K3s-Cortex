@@ -9,10 +9,10 @@ resources:
 images:
   - name: ghcr.io/renzoal7/gitpath
     newName: ghcr.io/renzoal7/gitpath
-    digest: sha256:d54473cd34fd4e19110cf8ffb284789bde05dab6e9b5eaa92c0ccab21a69af0b
+    digest: sha256:112be8b991abccaeff789953005eb16b0fcfa2ce3d4fd39bd4df1bfd620ca9e5
   - name: ghcr.io/renzoal7/gitpath-api
     newName: ghcr.io/renzoal7/gitpath-api
-    digest: sha256:d8265e04342e2958fa69256f5900f532b6b8e51f41cf157f9f9f28d4c08b98ac
+    digest: sha256:ec939e9c854e4cf1d9c497e51c2761db1586eebb84844f9f3e073d76dbdafb35
 patches:
   - path: web-runtime.yaml
   - target:
