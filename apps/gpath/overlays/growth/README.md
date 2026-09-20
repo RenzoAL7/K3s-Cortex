@@ -1,6 +1,7 @@
 # Growth Path
 
-Web + API en el namespace `gpath`, con recursos `gpath` y `gpath-api`.
+Web + API en el namespace `gpath`, con Deployments `gpath-web` y
+`gpath-analyzer-api`, y Services estables `gpath` y `gpath-api`.
 Las imágenes GHCR conservan sus direcciones existentes para no mover paquetes.
 
 No aplicar este overlay con `release-not-published`: primero la CI de GPath publica

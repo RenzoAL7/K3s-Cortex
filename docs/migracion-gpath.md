@@ -6,7 +6,7 @@ Realizada el 6 de septiembre de 2026 (Lima).
 
 - Directorio de manifiestos: `apps/gpath/`.
 - Namespace: `gpath`.
-- Deployments y Services: `gpath` y `gpath-api`.
+- Deployments: `gpath-web` y `gpath-analyzer-api`; Services: `gpath` y `gpath-api`.
 - Ingress, ServiceAccount y PodDisruptionBudget: `gpath`.
 - NetworkPolicy: `gpath-ingress-only`.
 - Application declarada en Cortex: `gpath-prod`, en

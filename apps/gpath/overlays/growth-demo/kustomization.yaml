@@ -11,9 +11,9 @@ images:
     newName: gpath-api
     newTag: demo-v1
 replicas:
-  - name: gpath
+  - name: gpath-web
     count: 1
-  - name: gpath-api
+  - name: gpath-analyzer-api
     count: 1
 patches:
   - target:

@@ -49,7 +49,7 @@ Dentro de la VM (`ssh OCI_VM`):
 sudo /usr/local/bin/k3s kubectl get nodes
 sudo /usr/local/bin/k3s kubectl get pods -A
 sudo /usr/local/bin/k3s kubectl -n gpath get deployments,services,ingress
-sudo /usr/local/bin/k3s kubectl -n gpath logs deployment/gpath-api --tail=20
+sudo /usr/local/bin/k3s kubectl -n gpath logs deployment/gpath-analyzer-api --tail=20
 sudo /usr/local/bin/k3s kubectl top nodes
 ```
 
@@ -104,7 +104,8 @@ o el chat. La sesión Bastion expira; si el túnel no conecta, ejecuta `bastion-
 7. Revertir una promoción y comprobar la recuperación con el digest anterior.
 
 No usar `latest` ni hacer `kubectl set image` como sustituto de una promoción GitOps.
-El namespace y los recursos se llaman `gpath` y `gpath-api`. La Application se llama
+El namespace es `gpath`; los Deployments se llaman `gpath-web` y
+`gpath-analyzer-api`, y los Services `gpath` y `gpath-api`. La Application se llama
 `gpath-prod`. Los paquetes GHCR existentes conservan sus direcciones históricas;
 el nombre de una imagen no tiene que coincidir con el de un recurso Kubernetes.
 
