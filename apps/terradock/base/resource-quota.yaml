@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: terradock-public-budget
+spec:
+  hard:
+    requests.cpu: 250m
+    requests.memory: 256Mi
+    limits.cpu: '1'
+    limits.memory: 512Mi
+    pods: '4'
