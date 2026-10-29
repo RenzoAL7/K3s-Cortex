@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: brinke
+  labels:
+    app.kubernetes.io/name: brinke
+    app.kubernetes.io/component: web
+  annotations:
+    traefik.ingress.kubernetes.io/service.nativelb: "true"
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: brinke
+    app.kubernetes.io/component: web
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP
