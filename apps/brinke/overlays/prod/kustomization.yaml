@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: brinke
+resources:
+  - ../../base
+images:
+  - name: ghcr.io/renzoal7/brinke-te-acompa-a
+    newName: ghcr.io/renzoal7/brinke-te-acompa-a
+    newTag: sha-0e8780010221a15704143032f10dfd27f36f6db2
