@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: brinke-prod
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: brinke
+    app.kubernetes.io/managed-by: cortex-root
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/RenzoAL7/K3s-Cortex.git
+    targetRevision: main
+    path: apps/brinke/overlays/prod
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: brinke
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
