@@ -1,11 +1,12 @@
-# Growth Path: inactive until the promotion PR pins both real digests AND changes
-# clusters/rnz-prod/gpath-application.yaml to this path. Do not apply as-is.
+# Growth Path: active production overlay.
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: gpath
 resources:
   - ../../base
   - ../../api
+  - brinke-application.yaml
+transformers:
+  - gpath-namespace.yaml
 images:
   - name: ghcr.io/renzoal7/gitpath
     newName: ghcr.io/renzoal7/gitpath
