@@ -10,10 +10,10 @@ transformers:
 images:
   - name: ghcr.io/renzoal7/gitpath
     newName: ghcr.io/renzoal7/gitpath
-    digest: sha256:45d8587fa0c630d05743ccb3e27d4f6a712bc5c1cbfdddb5b13f824c0c361396
+    digest: sha256:8d95e0176f26641571a954ffad5d90adddd3905ea9bbb252c14047889207e620
   - name: ghcr.io/renzoal7/gitpath-api
     newName: ghcr.io/renzoal7/gitpath-api
-    digest: sha256:b468da75e778a8c0fdb4194c87af1e2a86d38c07f07ad690af86ec4c7669761d
+    digest: sha256:b7896880d3f599a78513fb675b4799db1080b5e927cbb10baf211f87bb4a57fe
 patches:
   - path: web-runtime.yaml
   - target:
