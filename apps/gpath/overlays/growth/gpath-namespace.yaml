@@ -1,0 +1,24 @@
+apiVersion: builtin
+kind: NamespaceTransformer
+metadata:
+  name: gpath-namespace
+namespace: gpath
+fieldSpecs:
+  - path: metadata/namespace
+    create: true
+    kind: ServiceAccount
+  - path: metadata/namespace
+    create: true
+    kind: Deployment
+  - path: metadata/namespace
+    create: true
+    kind: Service
+  - path: metadata/namespace
+    create: true
+    kind: Ingress
+  - path: metadata/namespace
+    create: true
+    kind: PodDisruptionBudget
+  - path: metadata/namespace
+    create: true
+    kind: NetworkPolicy
