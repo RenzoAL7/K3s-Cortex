@@ -6,6 +6,10 @@ metadata:
   labels:
     app.kubernetes.io/part-of: brinke
     app.kubernetes.io/managed-by: gpath-prod
+  annotations:
+    # Evita que gpath-prod borre Brinke al retirar esta copia del overlay.
+    # Argo lee la opción del objeto vivo: debe estar sincronizada antes de retirarla.
+    argocd.argoproj.io/sync-options: Prune=false
   finalizers:
     - resources-finalizer.argocd.argoproj.io
 spec:
