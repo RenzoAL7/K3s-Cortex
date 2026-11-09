@@ -1,6 +1,24 @@
-# GitOps de GPath
+# GitOps activo
 
-## Estado observado
+## Estado actual
+
+Verificado el 9 de noviembre de 2026 con `kubectl get applications` en la VM:
+
+| Application | Estado | Origen |
+|---|---|---|
+| `cortex-root` | `Synced` / `Healthy` | `clusters/rnz-prod` |
+| `gpath-prod` | `Synced` / `Healthy` | `apps/gpath/overlays/growth` |
+| `brinke-prod` | `Synced` / `Healthy` | `apps/brinke/overlays/prod` |
+| `terradock-public` | `Synced` / `Healthy` | Registrada fuera de este repositorio |
+
+`cortex-root` registra `gpath-prod` y `brinke-prod`. No administra
+`terradock-public`, que no volvería sola si se reconstruye la VM. Las tres
+Applications de este repositorio usan el finalizer de Argo CD: borrar `cortex-root`
+eliminaría también GPath y Brinke.
+
+Es una observación puntual, no una garantía de disponibilidad.
+
+## Activación inicial de GPath
 
 Verificado el 7 de septiembre de 2026 a las 16:24 UTC en `OCI_VM`:
 
@@ -16,7 +34,8 @@ Verificado el 7 de septiembre de 2026 a las 16:24 UTC en `OCI_VM`:
 - Ingress `gpath` y `gpath-lb-health`: dirección publicada `193.122.221.201`.
 
 Son observaciones puntuales, no una garantía de disponibilidad. Los datos siguen
-siendo doce ofertas ficticias. No se activó la Application raíz.
+siendo doce ofertas ficticias. En esa fecha no se activó la Application raíz; se
+activó el 9 de noviembre de 2026.
 
 ## Publicar un cambio
 

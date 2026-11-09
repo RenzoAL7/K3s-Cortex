@@ -1,11 +1,12 @@
 # K3s-Cortex
 
-Infraestructura como código para administrar un clúster K3s mediante GitOps.
+Infraestructura como código para administrar un clúster K3s de un solo nodo en
+Oracle Cloud mediante GitOps.
 
-Estado verificado el 7 de septiembre de 2026: `gpath-prod` está `Synced` y
-`Healthy`. Solo GPath está registrado en Argo CD en la VM actual y la Application
-raíz no se activó. Ver [GitOps activo](docs/gitops-activo.md) para el alcance, las
-comprobaciones y el recorrido de publicación.
+Argo CD sincroniza las aplicaciones desde `main` con el patrón app-of-apps: la
+Application raíz `cortex-root` registra GPath y Brinke. Ver
+[GitOps activo](docs/gitops-activo.md) para el estado verificado, las comprobaciones
+y el recorrido de publicación.
 
 ---
 
@@ -20,7 +21,8 @@ despliegues futuros de forma declarativa, versionada y auditable.
 
 - Bootstrap de Argo CD.
 - Configuración de namespaces, RBAC e ingreso de tráfico con Traefik.
-- Despliegues de GPath gestionados por Argo CD.
+- Despliegues de GPath y Brinke gestionados por Argo CD.
+- Recetas de instalación de K3s, Argo CD y Traefik en la VM.
 - Convenciones para cambios mediante Pull Requests.
 
 ---
@@ -45,14 +47,14 @@ Argo CD sincroniza el clúster K3s
 .
 ├── bootstrap/           # Instalación inicial y Application raíz de Argo CD
 ├── clusters/            # Configuración por clúster
-├── platform/            # Componentes compartidos: ingress, seguridad y observabilidad
 ├── apps/                # Despliegues de aplicaciones
+├── infra/oci-vm/        # Recetas manuales de K3s, Argo CD y Traefik en la VM
 ├── docs/                # Decisiones y documentación técnica
 └── README.md
 ```
 
-Cada aplicación mantiene una base reutilizable y un overlay de producción con
-imágenes fijadas a commits inmutables.
+Cada aplicación mantiene una base reutilizable y un overlay de producción. GPath
+fija sus imágenes por digest y Brinke por un tag con el SHA del commit.
 
 ---
 
@@ -68,3 +70,13 @@ imágenes fijadas a commits inmutables.
 ## Aplicaciones
 
 - `apps/gpath`: Growth Path, exploración de tecnologías presentes en vacantes.
+- `apps/brinke`: frontend móvil de Brinke, publicado bajo `/brinke`.
+
+---
+
+## Límites
+
+- Es una sola VM: no hay alta disponibilidad.
+- Traefik, Argo CD, el firewall y el balanceador se configuran a mano y Argo CD no
+  los reconcilia.
+- El backup del estado de K3s y su prueba de restauración siguen pendientes.
