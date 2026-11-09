@@ -7,3 +7,4 @@ carpeta mediante el patrón app-of-apps:
 
 - `gpath-prod`: Growth Path, la exploración de requisitos de vacantes.
 - `brinke-prod`: frontend móvil de Brinke.
+- `peru-budget-prod`: plataforma de datos del gasto público del Perú.

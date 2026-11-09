@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - gpath-application.yaml
   - brinke-application.yaml
+  - peru-budget-application.yaml

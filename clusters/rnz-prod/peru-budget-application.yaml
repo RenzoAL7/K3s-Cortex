@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: peru-budget-prod
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: peru-budget-data-platform
+    app.kubernetes.io/managed-by: cortex-root
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/RenzoAL7/K3s-Cortex.git
+    targetRevision: main
+    path: apps/peru-budget-data-platform/overlays/2ocpu
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gasto-publico
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
