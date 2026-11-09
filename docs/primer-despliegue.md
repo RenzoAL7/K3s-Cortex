@@ -2,21 +2,19 @@
 
 ## Qué hay y qué falta
 
-Actualización: la demo pública usa `apps/gpath/overlays/public-demo` y abre en
-https://gpath.tech. Consulta `acceso-publico.md` para la configuración del LB,
-Traefik y firewall. Las notas de acceso privado de esta guía siguen siendo útiles
-para diagnóstico; no aplicar `growth-demo` sobre la demo pública sin intención de
-volver al host `localhost`.
+Actualización: https://gpath.tech se sirve con `apps/gpath/overlays/growth` mediante
+Argo CD. Consulta `gitops-activo.md` para el estado actual y `acceso-publico.md` para
+la configuración del LB, Traefik y firewall. Las notas de acceso privado de esta guía
+siguen siendo útiles para diagnóstico; no aplicar `growth-demo` ni `public-demo` sobre
+la aplicación gestionada por Argo CD.
 
 - `infra/oci-vm/`: receta de instalación inicial de k3s y Argo CD.
 - `apps/gpath/overlays/growth-demo/`: demo manual con imágenes ARM importadas.
 - `apps/gpath/overlays/growth/`: destino de las promociones GitOps por digest.
-- `clusters/rnz-prod/gpath-application.yaml`: aplicación Argo CD existente. La
-  primera promoción cambia su ruta a `growth`, solo después de publicar ambas imágenes.
+- `clusters/rnz-prod/gpath-application.yaml`: Application de Argo CD, que lee `growth`.
 - El Load Balancer y TLS público ya permiten acceder a la demo. La recolección
   Greenhouse, bucket y backups son etapas posteriores. La demo NO consulta ofertas
-  reales. No afirmar que GitOps funciona
-  hasta completar un PR, una reconciliación y una comprobación del resultado.
+  reales.
 
 No necesitas clonar Cortex dentro de la VM. Editamos la copia del Mac, publicamos los
 cambios revisados y Argo CD lee GitHub. Para la instalación inicial se copiaron solo
@@ -68,7 +66,7 @@ ssh -L 18080:127.0.0.1:18080 OCI_VM \
 En otra terminal del Mac, comprobar el Ingress de la demo:
 
 ```bash
-curl 'http://localhost:18080/api/jobs?role=data'
+curl http://localhost:18080/api/release
 ```
 
 Abre `http://localhost:18080` para ver la demo que corre en la VM. El overlay demo
@@ -92,15 +90,18 @@ sudo /usr/local/bin/k3s kubectl -n argocd get secret argocd-initial-admin-secret
 Cámbiala después de entrar. No pegues contraseña, token de k3s ni kubeconfig en el repo
 o el chat. La sesión Bastion expira; si el túnel no conecta, ejecuta `bastion-start OCI_VM`.
 
-## La siguiente etapa: activar GitOps de verdad
+## Cómo se activó GitOps
+
+Los pasos 1 a 6 ya se completaron y se conservan como referencia. El paso 7 no consta
+como ensayado. El estado actual está en `gitops-activo.md`.
 
 1. Publicar primero un PR en Cortex con `api`, `growth` y las políticas necesarias.
 2. Publicar un PR en GPath con la aplicación, sus pruebas y la CI actualizada.
 3. Fusionar GPath: CI construye web y API para ARM64 y abre un PR en Cortex con digests.
 4. Revisar y fusionar esa promoción. No hay merge automático de producción.
-5. Revisar las aplicaciones incluidas en `bootstrap/root-application.yaml` antes de
-   aplicarlo: el root actual registra únicamente la aplicación GPath.
-6. Argo CD debe indicar `Synced` y `Healthy`; luego probar `/api/jobs` por el Ingress.
+5. Revisar las aplicaciones incluidas en `clusters/rnz-prod` antes de aplicar
+   `bootstrap/root-application.yaml`.
+6. Argo CD debe indicar `Synced` y `Healthy`; luego probar `/api/release` por el Ingress.
 7. Revertir una promoción y comprobar la recuperación con el digest anterior.
 
 No usar `latest` ni hacer `kubectl set image` como sustituto de una promoción GitOps.

@@ -27,7 +27,7 @@ El último tramo privado no usa TLS; no afirmar cifrado extremo a extremo.
 `apps/gpath/overlays/public-demo` usa las imágenes demo importadas y el host
 `gpath.tech`. El Ingress de salud acepta únicamente `/healthz` sin exigir Host;
 comprueba la web, no la disponibilidad completa de la API. Las pruebas públicas
-de `/api/jobs` complementan ese health check.
+de `/api/release` complementan ese health check.
 
 ## Reproducir los cambios del clúster
 
@@ -57,7 +57,7 @@ backend indicaron `OK`. El smoke test de web y API sobre `https://gpath.tech` pa
 
 ```bash
 curl --fail https://gpath.tech/healthz
-curl --fail 'https://gpath.tech/api/jobs?role=data'
+curl --fail https://gpath.tech/api/release
 ```
 
 Para volver a acceso privado: aplicar `growth-demo`, quitar `ports.web.hostPort`

@@ -1,10 +1,9 @@
 # Bootstrap de Argo CD
 
-**VM actual:** Argo CD v3.5.2 ya está instalado y `gpath-prod` está registrado
-individualmente. No reinstalar ni aplicar la raíz para continuar con GPath:
-la raíz incluye la Application de GPath. Ver [estado actual](../docs/gitops-activo.md).
-Las instrucciones siguientes describen el bootstrap original, no una actualización
-de la instalación en uso.
+**VM actual:** Argo CD v3.5.2 ya está instalado y la Application raíz `cortex-root`
+está activa. No repetir estos pasos sobre la instalación en uso. Ver
+[estado actual](../docs/gitops-activo.md). Las instrucciones siguientes describen un
+bootstrap desde cero, no una actualización.
 
 Este directorio contiene el punto de arranque manual de GitOps. La instalación
 de Argo CD se aplica una sola vez; después, `root-application.yaml` hace que
@@ -22,7 +21,7 @@ Desde la VM, con acceso administrativo a K3s:
 ```bash
 sudo /usr/local/bin/k3s kubectl create namespace argocd
 sudo /usr/local/bin/k3s kubectl apply -n argocd --server-side --force-conflicts \
-  -f https://raw.githubusercontent.com/argoproj/argo-cd/v3.4.2/manifests/install.yaml
+  -f https://raw.githubusercontent.com/argoproj/argo-cd/v3.5.2/manifests/install.yaml
 ```
 
 Cuando todos los pods de Argo CD estén listos, aplicar la Application raíz:
