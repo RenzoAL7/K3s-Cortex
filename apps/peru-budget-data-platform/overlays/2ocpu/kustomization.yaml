@@ -1,0 +1,14 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+# Perfil actual: VM de 2 OCPU y 12 GB compartida con otras aplicaciones.
+resources:
+  - ../../base
+patches:
+  - target: {kind: ConfigMap, name: airflow-config}
+    patch: |-
+      - {op: replace, path: /data/PIPELINE_IMAGE, value: "ghcr.io/renzoal7/gasto-pipeline@sha256:8e0cde080585c1001a8684d3b50740d64b43be6d673d97b0dc49f6599c9c9c3f"}
+images:
+  - name: ghcr.io/renzoal7/gasto-airflow
+    digest: sha256:ee405f028a55c591e0a5868d9ac2ed80bba70b7800d8dc497e307757b345fead
+  - name: ghcr.io/renzoal7/gasto-search
+    digest: sha256:713add6c97ff0d19f597a85e71f78654cf0265e55e4b9151ed3906bd2091723b
