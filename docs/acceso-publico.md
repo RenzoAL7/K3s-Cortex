@@ -69,3 +69,20 @@ El respaldo previo de Traefik está en la VM en
 
 La exposición inicial no activaba GitOps. Ese paso se completó después de revisar
 las PRs y publicar los digests reales; el registro actual está en `gitops-activo.md`.
+
+## Webhook de GitHub para Argo CD
+
+Argo CD sincroniza en segundos cuando GitHub avisa de un push a este repositorio.
+`infra/argocd/webhook.yaml` publica solo `POST https://renzoaguilar.dev/api/webhook`
+hacia `argocd-server`; la interfaz y la API de Argo CD siguen sin acceso público.
+Si el webhook falla, `timeout.reconciliation: 60s` en `argocd-cm` hace que Argo CD
+revise los repositorios cada minuto. La Application `argocd-config` administra ambos.
+
+El secreto que valida cada entrega no está en Git. Para crearlo o rotarlo:
+
+1. Generar un valor aleatorio y guardarlo en `argocd-secret` con la clave
+   `webhook.github.secret` (`kubectl -n argocd patch secret argocd-secret`).
+2. Poner el mismo valor en el webhook del repositorio en GitHub
+   (Settings › Webhooks), con content type `application/json` y solo el evento `push`.
+
+Sin el secreto, Argo CD aceptaría avisos sin firma; con él, rechaza los que no coinciden.

@@ -6,3 +6,4 @@ resources:
   - peru-budget-application.yaml
   - portafolio-application.yaml
   - terradock-application.yaml
+  - argocd-config-application.yaml

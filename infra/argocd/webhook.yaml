@@ -1,0 +1,38 @@
+# Webhook de GitHub hacia Argo CD. Solo se publica POST /api/webhook en renzoaguilar.dev
+# (HTTPS en Cloudflare); la interfaz y la API de Argo CD siguen sin acceso publico.
+# Argo CD valida cada entrega con el secreto webhook.github.secret de argocd-secret,
+# que se crea a mano en el cluster y nunca se guarda en Git.
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: argocd-server
+spec:
+  # argocd-server usa un certificado autofirmado; el salto Traefik -> pod es interno.
+  insecureSkipVerify: true
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: argocd-webhook-limite
+spec:
+  rateLimit:
+    average: 5
+    burst: 10
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: argocd-webhook
+spec:
+  entryPoints: [web]
+  routes:
+    - kind: Rule
+      match: Host(`renzoaguilar.dev`) && Path(`/api/webhook`) && Method(`POST`)
+      priority: 100
+      middlewares:
+        - name: argocd-webhook-limite
+      services:
+        - name: argocd-server
+          port: 443
+          scheme: https
+          serversTransport: argocd-server

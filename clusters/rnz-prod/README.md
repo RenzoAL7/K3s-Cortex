@@ -12,3 +12,5 @@ carpeta mediante el patrón app-of-apps:
   `RenzoAL7/portafolio` publica una imagen y escribe su digest en el overlay `prod`.
 - `terradock-public`: portada de TerraDock en `terradock.renzoaguilar.dev` y en la
   ruta general `/` de la IP del balanceador.
+- `argocd-config`: configuración de Argo CD en `infra/argocd`: revisión cada minuto
+  y la ruta `POST /api/webhook` para el webhook de GitHub. Sin finalizer.
