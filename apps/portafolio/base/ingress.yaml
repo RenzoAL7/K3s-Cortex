@@ -1,0 +1,25 @@
+# Cloudflare termina HTTPS y llega por el puerto 80 (modo SSL "Flexible").
+# La regla por host gana a la ruta general "/" de TerraDock en la IP del balanceador.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portafolio
+  labels:
+    app.kubernetes.io/name: portafolio
+    app.kubernetes.io/component: web
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.priority: "20"
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: renzoaguilar.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: portafolio
+                port:
+                  name: http

@@ -4,3 +4,4 @@ resources:
   - gpath-application.yaml
   - brinke-application.yaml
   - peru-budget-application.yaml
+  - portafolio-application.yaml
