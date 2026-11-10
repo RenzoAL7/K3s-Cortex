@@ -7,11 +7,11 @@ patches:
 - target:
     kind: ConfigMap
     name: airflow-config
-  patch: '- {op: replace, path: /data/PIPELINE_IMAGE, value: "ghcr.io/renzoal7/gasto-pipeline@sha256:511db58bc05084f9c35ca4715d91cfdf0e994999af857dcf698fd6d2b75d9c8e"}'
+  patch: '- {op: replace, path: /data/PIPELINE_IMAGE, value: "ghcr.io/renzoal7/gasto-pipeline@sha256:cf80961eae9dc15517c6bd7bebfd09462cf49a45b184f7fa857158e1ef1f44ac"}'
 images:
 - name: ghcr.io/renzoal7/gasto-airflow
-  digest: sha256:b0a1c032340584c5ef2c53115eada896d94f53666bf86a48b689f8fa8ceb8cea
+  digest: sha256:b73091984ff30903edf5141f40f263fa273c4a28a300e08248b1ed2a17732a7d
 - name: ghcr.io/renzoal7/gasto-search
-  digest: sha256:7ff0cc7bc4a70a360ea6be869feb0a32f7ec757fa4b76f8fcec95ae70554edbe
+  digest: sha256:0ff4be5e56da0c6174638dd63a114cdaf9a3c49724d942cc7ef80ec5184402c5
 - name: ghcr.io/renzoal7/gasto-site
-  digest: sha256:0debfd84c664c2efe0edc86d8c606a5fb99adf7a5186532e2a4ab15cea42b1ac
+  digest: sha256:a4a859db2d29514a33e25a9f301466af5ea3efd2c82fb156928fc3d153ff408b
