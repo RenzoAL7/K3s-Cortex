@@ -5,3 +5,4 @@ resources:
   - brinke-application.yaml
   - peru-budget-application.yaml
   - portafolio-application.yaml
+  - terradock-application.yaml
