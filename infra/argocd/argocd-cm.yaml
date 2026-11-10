@@ -1,0 +1,15 @@
+# Solo los campos que Cortex administra. El resto de argocd-cm viene de install.yaml
+# (infra/oci-vm/install-argocd.sh) y no se toca: la Application usa ServerSideApply.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+  annotations:
+    # Nunca borrar este ConfigMap aunque se retire la Application.
+    argocd.argoproj.io/sync-options: Delete=false,Prune=false
+data:
+  # Respaldo del webhook: revisa los repositorios cada minuto en vez de cada 3.
+  timeout.reconciliation: 60s

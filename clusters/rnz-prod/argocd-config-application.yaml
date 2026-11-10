@@ -1,0 +1,28 @@
+# Configuracion de Argo CD administrada por Git: revision cada minuto y ruta del webhook.
+# Sin finalizer: retirar esta Application no borra nada de Argo CD.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-config
+  namespace: argocd
+  labels:
+    app.kubernetes.io/part-of: argocd
+    app.kubernetes.io/managed-by: cortex-root
+  annotations:
+    # Compara solo los campos de argocd-cm que declara Git, no todo el ConfigMap.
+    argocd.argoproj.io/compare-options: ServerSideDiff=true
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/RenzoAL7/K3s-Cortex.git
+    targetRevision: main
+    path: infra/argocd
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
