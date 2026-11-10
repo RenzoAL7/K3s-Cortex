@@ -1,27 +1,33 @@
+# Generado por scripts/promote.py de RenzoAL7/peru-spend-tracker. No editar a mano.
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-# Perfil para cuando la VM tenga 4 OCPU y 24 GB.
 resources:
-  - ../../base
+- ../../base
 patches:
-  - target: {kind: ConfigMap, name: airflow-config}
-    patch: |-
-      - {op: replace, path: /data/PIPELINE_IMAGE, value: "ghcr.io/renzoal7/gasto-pipeline@sha256:1b047a3ecd4186130a8700b64a05732ea87fe617bcc03934b70550c20f310606"}
-  - target: {kind: ConfigMap, name: gasto-config}
-    patch: |-
-      - {op: replace, path: /data/DUCKDB_MEMORY_LIMIT, value: 10GB}
-      - {op: replace, path: /data/DUCKDB_THREADS, value: "3"}
-  - target: {kind: ConfigMap, name: airflow-config}
-    patch: |-
-      - {op: replace, path: /data/PIPELINE_MEMORY_LIMIT, value: 12Gi}
-      - {op: replace, path: /data/PIPELINE_CPU_LIMIT, value: 3000m}
-  - target: {kind: ResourceQuota, name: gasto-publico}
-    patch: |-
-      - {op: replace, path: /spec/hard/limits.memory, value: 20Gi}
+- target:
+    kind: ConfigMap
+    name: airflow-config
+  patch: '- {op: replace, path: /data/PIPELINE_IMAGE, value: "ghcr.io/renzoal7/gasto-pipeline@sha256:b94b2c4730b4132c17e346cbcf16a35484493f3eb33117c198066ad241b9bb91"}'
+- target:
+    kind: ConfigMap
+    name: gasto-config
+  patch: '- {op: replace, path: /data/DUCKDB_MEMORY_LIMIT, value: 10GB}
+
+    - {op: replace, path: /data/DUCKDB_THREADS, value: "3"}'
+- target:
+    kind: ConfigMap
+    name: airflow-config
+  patch: '- {op: replace, path: /data/PIPELINE_MEMORY_LIMIT, value: 12Gi}
+
+    - {op: replace, path: /data/PIPELINE_CPU_LIMIT, value: 3000m}'
+- target:
+    kind: ResourceQuota
+    name: gasto-publico
+  patch: '- {op: replace, path: /spec/hard/limits.memory, value: 20Gi}'
 images:
-  - name: ghcr.io/renzoal7/gasto-airflow
-    digest: sha256:e36c693b0856cda29929f14df48534fe591f40c5b20193e901f77ebbcc4ca2d4
-  - name: ghcr.io/renzoal7/gasto-search
-    digest: sha256:17377b8c225dba409d58e22ef8d5a46a4c5997b31ef86e3c2215d5299aa25044
-  - name: ghcr.io/renzoal7/gasto-site
-    digest: sha256:b3eadb3bf2477a40ec954c576b743496f64333b0767312625edc7f82a1a0a5c5
+- name: ghcr.io/renzoal7/gasto-airflow
+  digest: sha256:b6636ebd135c2e6d328a8a0607ec5a752d9e64024b2291add008c624f3a96078
+- name: ghcr.io/renzoal7/gasto-search
+  digest: sha256:35ed7a3e09a3bc54e300f689925fe7a68c11e80c367588ace428df442c10311e
+- name: ghcr.io/renzoal7/gasto-site
+  digest: sha256:55f97d64b1c06663cd2d8fe948f6da9a19871dd217042db67550169cd40334d0

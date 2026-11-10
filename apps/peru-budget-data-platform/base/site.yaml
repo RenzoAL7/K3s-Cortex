@@ -61,3 +61,25 @@ spec:
               service:
                 name: gasto-site
                 port: {name: http}
+---
+# Dominio propio detras de Cloudflare. El balanceador de OCI solo reenvia el puerto 80,
+# asi que Cloudflare termina HTTPS y llega por HTTP (modo SSL "Flexible").
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gasto-site-dominio
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.priority: "20"
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: peru-spend-tracker.renzoaguilar.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gasto-site
+                port: {name: http}
