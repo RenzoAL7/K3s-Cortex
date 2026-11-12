@@ -6,4 +6,4 @@ resources:
 images:
   - name: ghcr.io/renzoal7/brinke-te-acompa-a
     newName: ghcr.io/renzoal7/brinke-te-acompa-a
-    newTag: sha-020999d86f589531ce33a287607fdc5c879feb3f
+    newTag: sha-3d392387ed522dc201f9b079ba4ef807f2d8018b
