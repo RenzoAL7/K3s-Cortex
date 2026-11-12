@@ -1,0 +1,25 @@
+# Panel privado. Cloudflare Access pide el login antes de llegar aquí y el
+# servicio vuelve a validar el JWT de Access, por si alguien entra directo a la IP.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portafolio-estado
+  labels:
+    app.kubernetes.io/name: portafolio-estado
+    app.kubernetes.io/component: estado
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.priority: "20"
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: k3s.renzoaguilar.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: portafolio-estado
+                port:
+                  name: http
