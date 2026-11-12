@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: portafolio-estado
+  labels:
+    app.kubernetes.io/name: portafolio-estado
+    app.kubernetes.io/component: estado
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: portafolio-estado
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: portafolio-estado
+        app.kubernetes.io/component: estado
+    spec:
+      serviceAccountName: portafolio-estado
+      # Solo este pod monta el token; la web sigue sin acceso a la API.
+      automountServiceAccountToken: true
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: estado
+          # El overlay fija el digest que publica el workflow de RenzoAL7/portafolio.
+          image: ghcr.io/renzoal7/portafolio-estado
+          imagePullPolicy: IfNotPresent
+          env:
+            # namespace=Nombre visible. Cada namespace necesita su RoleBinding en rbac.yaml.
+            - name: ESTADO_PROYECTOS
+              value: "portafolio=Portafolio,brinke=Brinke,gpath=GPath,gasto-publico=Perú Budget Data Platform,terradock=TerraDock"
+            # Cloudflare Zero Trust → Access → Applications → la app de k3s.renzoaguilar.dev.
+            # Sin estos dos valores el servicio no arranca (falla cerrado).
+            - name: ESTADO_ACCESS_TEAM
+              value: "morning-field-1454"  # morning-field-1454.cloudflareaccess.com
+            - name: ESTADO_ACCESS_AUD
+              value: "be1bf37c3299c7998e91e0b8f1a19cd5bfcc38d3485c6a70131f52358555a0f6"  # Application Audience (AUD) Tag
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          securityContext:
+            runAsUser: 65532
+            runAsGroup: 65532
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: 5m
+              memory: 16Mi
+            limits:
+              cpu: 100m
+              memory: 64Mi
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 2
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            periodSeconds: 20
+            timeoutSeconds: 2

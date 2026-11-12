@@ -1,0 +1,98 @@
+# Permisos mínimos: listar workloads, pods y métricas.
+# Sin secrets, configmaps, logs ni exec. Solo en los namespaces enlazados abajo.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: portafolio-estado-lectura
+  labels:
+    app.kubernetes.io/name: portafolio-estado
+rules:
+  - apiGroups: [""]
+    resources: [pods]
+    verbs: [list]
+  - apiGroups: [apps]
+    resources: [deployments, statefulsets]
+    verbs: [list]
+  - apiGroups: [metrics.k8s.io]
+    resources: [pods]
+    verbs: [list]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: portafolio-estado-lectura
+  namespace: portafolio
+  labels:
+    app.kubernetes.io/name: portafolio-estado
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: portafolio-estado-lectura
+subjects:
+  - kind: ServiceAccount
+    name: portafolio-estado
+    namespace: portafolio
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: portafolio-estado-lectura
+  namespace: brinke
+  labels:
+    app.kubernetes.io/name: portafolio-estado
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: portafolio-estado-lectura
+subjects:
+  - kind: ServiceAccount
+    name: portafolio-estado
+    namespace: portafolio
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: portafolio-estado-lectura
+  namespace: gpath
+  labels:
+    app.kubernetes.io/name: portafolio-estado
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: portafolio-estado-lectura
+subjects:
+  - kind: ServiceAccount
+    name: portafolio-estado
+    namespace: portafolio
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: portafolio-estado-lectura
+  namespace: gasto-publico
+  labels:
+    app.kubernetes.io/name: portafolio-estado
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: portafolio-estado-lectura
+subjects:
+  - kind: ServiceAccount
+    name: portafolio-estado
+    namespace: portafolio
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: portafolio-estado-lectura
+  namespace: terradock
+  labels:
+    app.kubernetes.io/name: portafolio-estado
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: portafolio-estado-lectura
+subjects:
+  - kind: ServiceAccount
+    name: portafolio-estado
+    namespace: portafolio
