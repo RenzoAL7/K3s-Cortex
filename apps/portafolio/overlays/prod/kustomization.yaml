@@ -17,3 +17,5 @@ transformers:
 images:
   - name: ghcr.io/renzoal7/portafolio
     digest: sha256:82e42107fbabe297e03c811b44ad01d3aa46879798ddce1d9013760dbbd636f2
+  - name: ghcr.io/renzoal7/portafolio-estado
+    digest: sha256:7d204c82a82327d394b71ff24cbb4d7aa5bf06ba8a384c0b40a98945643bc90b
