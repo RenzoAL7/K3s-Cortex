@@ -7,4 +7,4 @@ resources:
 images:
   - name: ghcr.io/renzoal7/terradock-public
     newName: ghcr.io/renzoal7/terradock-public
-    digest: sha256:9ea27fa0c61c715e2a63e28b2e55e4301d1a620244bbdf599b18eb5fc9486a33
+    digest: sha256:a4f1f7cef9b0bd24b8388b3cabc1b9cf5117bfd35f9a40b4ea4de3d43a286c68
