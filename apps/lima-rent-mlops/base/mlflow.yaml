@@ -15,6 +15,9 @@ metadata:
   name: lima-rent-mlflow
 spec:
   replicas: 1
+  # Recreate: MLflow migra el esquema de Postgres al arrancar. Con RollingUpdate conviven dos
+  # pods durante el cambio de versión y ambos intentan migrar a la vez.
+  strategy: {type: Recreate}
   selector:
     matchLabels: {app: lima-rent-mlflow}
   template:
