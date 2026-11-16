@@ -5,10 +5,10 @@ resources:
 - ../../base
 images:
 - name: ghcr.io/renzoal7/lima-rent-api
-  digest: sha256:6d285b9f1a71086f66bf29ce9374ca098a168dee547459e9fcdea7700b66bcf9
+  digest: sha256:82ac3359dbc907cb2a0faea6cc79d049037c6417e1730db8a571b367a2fec9b9
 - name: ghcr.io/renzoal7/lima-rent-dashboard
-  digest: sha256:c4c65becc317aebe692a6fe1af8884d1a9382d31c6aa70c7648ea3e6468387e6
+  digest: sha256:ebafbae204e71d9d9a35506a41f1c1790c0a492665c242e8fdaee9210cd4870d
 - name: ghcr.io/renzoal7/lima-rent-pipeline
-  digest: sha256:46bd2d7afe89d11a0c5878045baaffe2fe5348e1396ff395c4ac90782d2b110c
+  digest: sha256:40486e6cfe4e9e8bcc3049aeb5f3619385bdffe2f9c7967212f632787420bbb5
 - name: ghcr.io/renzoal7/lima-rent-mlflow
-  digest: sha256:f7a3c28efcc8448e083022023dd25d0018a5c9e07a5f6e587a01fa7c7c34d277
+  digest: sha256:1b46b6c446f41fe6110e1ea03512a969f8c88e5843d7f4d3aac0e391f8d45b6a

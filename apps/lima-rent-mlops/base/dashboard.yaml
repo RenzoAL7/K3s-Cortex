@@ -51,8 +51,10 @@ spec:
 ---
 # Dominio propio detrás de Cloudflare, igual que peru-spend-tracker: Cloudflare termina HTTPS,
 # el balanceador de OCI reenvía el puerto 80 y Traefik enruta por host.
-#   /api/*  -> API (FastAPI)
-#   /*      -> dashboard (Streamlit)
+#   /api/*  -> API (FastAPI), Ingress lima-rent-api, prioridad 30
+#   /*      -> dashboard (Streamlit), Ingress lima-rent, prioridad 20
+# Son dos Ingress porque la anotación de prioridad vale para todas las rutas del objeto: con
+# ambas rutas en uno solo empataban y Traefik podía mandar /api al dashboard.
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -66,15 +68,29 @@ spec:
     - host: lima-rent.renzoaguilar.dev
       http:
         paths:
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: lima-rent-api
-                port: {name: http}
           - path: /
             pathType: Prefix
             backend:
               service:
                 name: lima-rent-dashboard
+                port: {name: http}
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lima-rent-api
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.priority: "30"
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: lima-rent.renzoaguilar.dev
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: lima-rent-api
                 port: {name: http}
