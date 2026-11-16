@@ -1,0 +1,54 @@
+# Base de datos de MLflow (experimentos y registry). Los artefactos van al bucket, no aquí.
+apiVersion: v1
+kind: Service
+metadata:
+  name: lima-rent-postgres
+spec:
+  clusterIP: None
+  selector: {app: lima-rent-postgres}
+  ports:
+    - port: 5432
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: lima-rent-postgres
+spec:
+  serviceName: lima-rent-postgres
+  replicas: 1
+  selector:
+    matchLabels: {app: lima-rent-postgres}
+  template:
+    metadata:
+      labels: {app: lima-rent-postgres}
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: postgres
+          image: postgres:17.6-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - {name: POSTGRES_USER, value: mlflow}
+            - {name: POSTGRES_DB, value: mlflow}
+            - {name: PGDATA, value: /var/lib/postgresql/data/pgdata}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef: {name: lima-rent-postgres, key: POSTGRES_PASSWORD}
+          readinessProbe:
+            exec:
+              command: [pg_isready, -U, mlflow]
+          resources:
+            requests: {cpu: 25m, memory: 96Mi}
+            limits: {memory: 256Mi}
+          volumeMounts:
+            - {name: data, mountPath: /var/lib/postgresql/data}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: [ReadWriteOnce]
+        storageClassName: local-path
+        resources:
+          requests:
+            storage: 1Gi

@@ -1,0 +1,10 @@
+# Techo del namespace: la VM (3 OCPU / 20 GB) se comparte con peru-spend-tracker y otras apps.
+# Requests en régimen: ~1.6 GiB (postgres, mlflow, 2 api, dashboard) + 640 MiB del pipeline.
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: lima-rent
+spec:
+  hard:
+    requests.memory: 3Gi
+    limits.memory: 7Gi

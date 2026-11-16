@@ -1,0 +1,84 @@
+# Orquestación con CronJobs de Kubernetes (en vez de Prefect/Airflow): el pipeline es una sola
+# secuencia semanal y el clúster ya sabe programar, reintentar y guardar el historial de jobs.
+#
+# Primera corrida sin esperar al lunes:
+#   kubectl -n lima-rent create job --from=cronjob/lima-rent-weekly lima-rent-primera
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: lima-rent-weekly
+spec:
+  schedule: "0 6 * * 1"  # lunes 06:00, hora de Lima
+  timeZone: America/Lima
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 10800
+      ttlSecondsAfterFinished: 604800
+      template:
+        metadata:
+          labels: {app: lima-rent-pipeline}
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          securityContext: {runAsNonRoot: true, runAsUser: 1000, seccompProfile: {type: RuntimeDefault}}
+          containers:
+            - name: pipeline
+              image: ghcr.io/renzoal7/lima-rent-pipeline:local
+              command: [lima-rent, weekly]
+              envFrom: &env
+                - configMapRef: {name: lima-rent-config}
+                - secretRef: {name: lima-rent-s3}
+              securityContext: &sc {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+              resources: &resources
+                requests: {cpu: 250m, memory: 640Mi}
+                limits: {cpu: "2", memory: 2Gi}
+              volumeMounts: &mounts
+                - {name: tmp, mountPath: /tmp}
+          volumes: &volumes
+            - name: tmp
+              emptyDir: {sizeLimit: 2Gi}
+---
+# Series de contexto (BCRP trimestral, ENAHO anual): basta con una vez al mes.
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: lima-rent-context
+spec:
+  schedule: "0 7 2 * *"
+  timeZone: America/Lima
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+      activeDeadlineSeconds: 3600
+      ttlSecondsAfterFinished: 604800
+      template:
+        metadata:
+          labels: {app: lima-rent-pipeline}
+        spec:
+          restartPolicy: Never
+          automountServiceAccountToken: false
+          securityContext: {runAsNonRoot: true, runAsUser: 1000, seccompProfile: {type: RuntimeDefault}}
+          containers:
+            # Los anclajes YAML (&env) no cruzan documentos: se repite la configuración.
+            - name: context
+              image: ghcr.io/renzoal7/lima-rent-pipeline:local
+              command: [lima-rent, context]
+              envFrom:
+                - configMapRef: {name: lima-rent-config}
+                - secretRef: {name: lima-rent-s3}
+              securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+              resources:
+                requests: {cpu: 100m, memory: 512Mi}
+                limits: {cpu: "1", memory: 1536Mi}
+              volumeMounts:
+                - {name: tmp, mountPath: /tmp}
+          volumes:
+            - name: tmp
+              emptyDir: {sizeLimit: 1Gi}

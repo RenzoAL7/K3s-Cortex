@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lima-rent-api
+spec:
+  selector: {app: lima-rent-api}
+  ports:
+    - {name: http, port: 8080}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lima-rent-api
+spec:
+  # Dos réplicas y el pod nuevo antes de retirar el viejo: la API no se corta al desplegar.
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: {maxSurge: 1, maxUnavailable: 0}
+  selector:
+    matchLabels: {app: lima-rent-api}
+  template:
+    metadata:
+      labels: {app: lima-rent-api}
+    spec:
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 1000, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: api
+          image: ghcr.io/renzoal7/lima-rent-api:local
+          ports:
+            - {containerPort: 8080, name: http}
+          envFrom: &env
+            - configMapRef: {name: lima-rent-config}
+            - secretRef: {name: lima-rent-s3}
+          securityContext: &sc {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          # /api/health no depende del modelo: la API arranca aunque aún no haya champion.
+          # /api/ready (con modelo) lo revisa el monitor de GitHub Actions.
+          readinessProbe:
+            httpGet: {path: /api/health, port: 8080}
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: {path: /api/health, port: 8080}
+            periodSeconds: 30
+          resources:
+            requests: {cpu: 50m, memory: 160Mi}
+            limits: {memory: 512Mi}
+          volumeMounts:
+            - {name: tmp, mountPath: /tmp}
+      volumes:
+        - name: tmp
+          emptyDir: {sizeLimit: 64Mi}

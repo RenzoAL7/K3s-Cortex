@@ -1,0 +1,65 @@
+# MLflow: tracking + model registry. Interno: solo lo usa el pipeline (ver network-policy).
+# Sirve los artefactos (--serve-artifacts): los clientes no necesitan claves del bucket.
+apiVersion: v1
+kind: Service
+metadata:
+  name: lima-rent-mlflow
+spec:
+  selector: {app: lima-rent-mlflow}
+  ports:
+    - {name: http, port: 5000}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lima-rent-mlflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels: {app: lima-rent-mlflow}
+  template:
+    metadata:
+      labels: {app: lima-rent-mlflow}
+    spec:
+      automountServiceAccountToken: false
+      securityContext: {runAsNonRoot: true, runAsUser: 1000, seccompProfile: {type: RuntimeDefault}}
+      containers:
+        - name: mlflow
+          image: ghcr.io/renzoal7/lima-rent-mlflow:local
+          ports:
+            - {containerPort: 5000, name: http}
+          env:
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef: {name: lima-rent-postgres, key: POSTGRES_PASSWORD}
+            - name: MLFLOW_BACKEND_STORE_URI
+              value: postgresql://mlflow:$(POSTGRES_PASSWORD)@lima-rent-postgres:5432/mlflow
+            - {name: MLFLOW_ARTIFACTS_DESTINATION, value: s3://lima-rent-mlops/mlflow-artifacts}
+            - name: MLFLOW_ALLOWED_HOSTS
+              value: lima-rent-mlflow,lima-rent-mlflow:5000,lima-rent-mlflow.lima-rent.svc.cluster.local:5000,localhost:5000
+            - name: MLFLOW_S3_ENDPOINT_URL
+              valueFrom:
+                secretKeyRef: {name: lima-rent-s3, key: S3_ENDPOINT_URL}
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                secretKeyRef: {name: lima-rent-s3, key: S3_ACCESS_KEY_ID}
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                secretKeyRef: {name: lima-rent-s3, key: S3_SECRET_ACCESS_KEY}
+            - {name: AWS_DEFAULT_REGION, value: us-ashburn-1}
+          securityContext: {allowPrivilegeEscalation: false, readOnlyRootFilesystem: true, capabilities: {drop: [ALL]}}
+          startupProbe:
+            httpGet: {path: /health, port: 5000}
+            periodSeconds: 5
+            failureThreshold: 36
+          readinessProbe:
+            httpGet: {path: /health, port: 5000}
+            periodSeconds: 20
+          resources:
+            requests: {cpu: 50m, memory: 320Mi}
+            limits: {memory: 768Mi}
+          volumeMounts:
+            - {name: tmp, mountPath: /tmp}
+      volumes:
+        - name: tmp
+          emptyDir: {sizeLimit: 512Mi}

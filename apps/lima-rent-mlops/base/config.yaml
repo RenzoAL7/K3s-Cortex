@@ -1,0 +1,23 @@
+# Configuración no secreta. Los secretos se crean a mano con scripts/crear-secretos.sh
+# (ver docs/despliegue.md) y van separados para que cada pod reciba solo lo que usa:
+#   lima-rent-s3        S3_ENDPOINT_URL, S3_ACCESS_KEY_ID, S3_SECRET_ACCESS_KEY (api, dashboard,
+#                       pipeline, mlflow)
+#   lima-rent-postgres  POSTGRES_PASSWORD (postgres y mlflow)
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lima-rent-config
+data:
+  DATA_URI: s3://lima-rent-mlops
+  S3_REGION: us-ashburn-1
+  MLFLOW_TRACKING_URI: http://lima-rent-mlflow:5000
+  MLFLOW_EXPERIMENT: lima-rent
+  MODEL_NAME: lima-rent
+  API_URL: http://lima-rent-api:8080
+  MODEL_RELOAD_SECONDS: "300"
+  SCRAPE_DELAY_SECONDS: "4"
+  OPTUNA_TRIALS: "30"
+  PSI_THRESHOLD: "0.2"
+  MAPE_THRESHOLD: "0.25"
+  MIN_NEW_LISTINGS: "30"
+  MIN_IMPROVEMENT: "0.01"

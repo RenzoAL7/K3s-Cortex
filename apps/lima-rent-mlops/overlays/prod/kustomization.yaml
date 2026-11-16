@@ -1,0 +1,14 @@
+# Generado por scripts/promote.py de RenzoAL7/lima-rent-mlops. No editar a mano.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- ../../base
+images:
+- name: ghcr.io/renzoal7/lima-rent-api
+  digest: sha256:e41c66cdfb4c43e0cba02aaaad9354f4a9e639834c81e59ab15ba286c070e51a
+- name: ghcr.io/renzoal7/lima-rent-dashboard
+  digest: sha256:07f0a42ede3c98ac44d390db6eb8329893602fc77d183535eabc2f611157b5b4
+- name: ghcr.io/renzoal7/lima-rent-pipeline
+  digest: sha256:fec1bb8d30cee14c0a8605cc90525fd48bdc4efddf54427e93ed9df5b3d959cd
+- name: ghcr.io/renzoal7/lima-rent-mlflow
+  digest: sha256:ab23e817917d6ce23e3fc0fa46f39bfbf7e9ec9d34cfd282432123e022c9689a
