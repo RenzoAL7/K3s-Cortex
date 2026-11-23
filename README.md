@@ -10,6 +10,18 @@ y el recorrido de publicación.
 
 ---
 
+## Páginas publicadas
+
+| Aplicación | Enlace |
+| --- | --- |
+| Growth Path | [gpath.tech](https://gpath.tech) |
+| Peru Spend Tracker | [peru-spend-tracker.renzoaguilar.dev](https://peru-spend-tracker.renzoaguilar.dev) |
+| TerraDock | [terradock.renzoaguilar.dev](https://terradock.renzoaguilar.dev) |
+| Brinke | [brinke.renzoaguilar.dev](https://brinke.renzoaguilar.dev) |
+| Lima Rent | [lima-rent.renzoaguilar.dev](https://lima-rent.renzoaguilar.dev) |
+
+---
+
 ## Objetivo
 
 Centralizar la configuración del clúster, sus componentes de plataforma y los
